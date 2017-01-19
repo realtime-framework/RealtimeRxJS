@@ -1,0 +1,44 @@
+{
+  "name": "realtime-rxjs",
+  "version": "2.1.0",
+  "description": "Realtime Messaging SDK for JavaScript Reactive Extensions (RxJS)",
+  "main": "./dist/realtime-rxjs.js",
+  "typings": "./dist/realtime-rxjs",
+  "scripts": {
+    "prepublish": "tsc -d"
+  },
+  "devDependencies": {
+    "rxjs": ">= 5.0.0-beta.12 <6",
+    "typescript": "^2.0.9"
+  },
+  "peerDependencies": {
+    "rxjs": ">= 5.0.0-beta.12 <6"
+  },
+  "dependencies": {
+    "realtime-messaging": "^2.1.40"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/realtime-framework/RealtimeRxJS.git"
+  },
+  "keywords": [
+    "Realtime",
+    "WebSocket",
+    "Rx",
+    "RxJS",
+    "ReactiveX",
+    "ReactiveExtensions",
+    "Streams",
+    "Observables",
+    "Observable",
+    "Stream",
+    "ES6",
+    "ES2015"
+  ],
+  "author": "Realtime.co",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/realtime-framework/RealtimeRxJS/issues"
+  },
+  "homepage": "https://github.com/realtime-framework/RealtimeRxJS"
+}

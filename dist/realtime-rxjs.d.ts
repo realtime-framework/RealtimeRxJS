@@ -1,0 +1,53 @@
+import * as RealtimeMessaging from 'realtime-messaging';
+import { Observable } from 'rxjs/Rx';
+export declare type PresenceParameters = RealtimeMessaging.PresenceParameters;
+export declare type PresenceResult = RealtimeMessaging.PresenceResult;
+export declare type MessageOptions = RealtimeMessaging.MessageOptions;
+export interface ConnectionEvent {
+    type: string;
+    channel?: string;
+    exception?: string;
+}
+export declare class ObservableConnection {
+    private client;
+    private channels;
+    private connectionObservable;
+    private connectedReady;
+    private reconnectedReady;
+    private reconnectedResolveFn;
+    private isReconnecting;
+    constructor();
+    setClusterUrl(url: string): void;
+    getAnnouncementSubChannel(): string;
+    getClusterUrl(): string;
+    getConnectionMetadata(): string;
+    getConnectionTimeout(): number;
+    getHeartbeatActive(): boolean;
+    getHeartbeatFails(): number;
+    getHeartbeatTime(): number;
+    getId(): string;
+    getProtocol(): string;
+    getSessionId(): string;
+    getUrl(): string;
+    getIsConnected(): boolean;
+    isSubscribed(channel: string): boolean;
+    presence(params: PresenceParameters): Observable<PresenceResult>;
+    setAnnouncementSubChannel(channel: string): void;
+    setConnectionMetadata(connectionMetadata: string): void;
+    setConnectionTimeout(connectionTimeout: number): void;
+    setHeartbeatActive(active: boolean): void;
+    setHeartbeatFails(newHeartbeatFails: number): void;
+    setHeartbeatTime(newHeartbeatTime: number): void;
+    setId(id: string): void;
+    setProtocol(protocol: string): void;
+    setUrl(url: string): void;
+    getPublishTimeout(): number;
+    setPublishTimeout(newTimeout: number): void;
+    connect(appkey: string, token: string): void;
+    observeConnection(): Observable<ConnectionEvent>;
+    observeChannel(channel: string): Observable<string>;
+    observeChannelWithOptions(channel: string, subscriberId?: string, filter?: string, autoUnsubscribe?: boolean): Observable<MessageOptions>;
+    send(channel: string, message: string): void;
+    publish(channel: string, message: string, ttl: number): Observable<string>;
+    disconnect(): void;
+}
