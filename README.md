@@ -22,7 +22,7 @@ import * as RealtimeRx from 'realtime-rxjs';
 import { Observable } from 'rxjs/Rx';
 ...
 // Instantiates a new Realtime client connection
-rxConnection = new RealtimeRx.ObservableConnection();
+const rxConnection = new RealtimeRx.ObservableConnection();
 
 // Sets the connection metadata (optional)
 rxConnection.setConnectionMetadata("Realtime RxJs example");
@@ -35,6 +35,9 @@ rxConnection.observeChannel("myChannel")
   .subscribe((message) => {
     console.log("Received message: " + message);
   });
+  
+// Send a message
+rxConnection.send("myChannel", "This is the message ...");
 
 ```
 Note that you don't need to manage the connection state yourself (e.g. waiting for the onConnected event before subscribing a channekl) as it's performed internally (subscriptions and sends will be pending until the underlying Realtime connection is ready).
