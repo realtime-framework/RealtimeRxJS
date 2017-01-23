@@ -1,6 +1,19 @@
-import * as RealtimeMessaging from 'realtime-messaging';
-import { Observable } from 'rxjs/Rx';
-var ObservableConnection = (function () {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ObservableConnection = undefined;
+
+var _realtimeMessaging = require('realtime-messaging');
+
+var RealtimeMessaging = _interopRequireWildcard(_realtimeMessaging);
+
+var _Rx = require('rxjs/Rx');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var ObservableConnection = function () {
     function ObservableConnection() {
         this.channels = {};
         this.connectionObservable = null;
@@ -53,12 +66,11 @@ var ObservableConnection = (function () {
     };
     ObservableConnection.prototype.presence = function (params) {
         var _this = this;
-        return Observable.create(function (observer) {
+        return _Rx.Observable.create(function (observer) {
             _this.client.presence(params, function (error, result) {
                 if (error) {
                     observer.error(error);
-                }
-                else {
+                } else {
                     observer.next(result);
                 }
             });
@@ -127,7 +139,7 @@ var ObservableConnection = (function () {
         var _this = this;
         if (!this.connectionObservable) {
             // set the connection observable
-            this.connectionObservable = Observable.create(function (observer) {
+            this.connectionObservable = _Rx.Observable.create(function (observer) {
                 // handle the connection events 
                 // and emit them through the subscribed observers
                 _this.client.onSubscribed = function (client, channel) {
@@ -140,8 +152,7 @@ var ObservableConnection = (function () {
                     if (exception === "Invalid connection") {
                         // fatal connection error, stop the observable
                         observer.error("Invalid connection");
-                    }
-                    else {
+                    } else {
                         observer.next({ type: "EXCEPTION", exception: exception });
                     }
                 };
@@ -181,7 +192,7 @@ var ObservableConnection = (function () {
             return;
         }
         if (!this.channels[channel]) {
-            var channelObservable = new Observable(function (observer) {
+            var channelObservable = new _Rx.Observable(function (observer) {
                 _this.connectedReady.then(function () {
                     _this.reconnectedReady.then(function () {
                         _this.client.subscribe(channel, true, function (client, channel, msg) {
@@ -211,13 +222,15 @@ var ObservableConnection = (function () {
     // Get a channel observable using the Realtime subscribeWithOptions method
     ObservableConnection.prototype.observeChannelWithOptions = function (channel, subscriberId, filter, autoUnsubscribe) {
         var _this = this;
-        if (autoUnsubscribe === void 0) { autoUnsubscribe = true; }
+        if (autoUnsubscribe === void 0) {
+            autoUnsubscribe = true;
+        }
         if (this.channels[channel] && !this.channels[channel].withOptions) {
             console.error("Channel " + channel + " is already being subscribed without options. You can't mix subscription types over the same channel using the same Realtime connection");
             return;
         }
         var _channel = this.channels[channel];
-        if (_channel && _channel.optionsKey !== (subscriberId + "_" + filter + "_" + autoUnsubscribe)) {
+        if (_channel && _channel.optionsKey !== subscriberId + "_" + filter + "_" + autoUnsubscribe) {
             console.error("Channel " + channel + " is already being subscribed with different options. You can't mix subscription options over the same channel using the same Realtime connection");
             return;
         }
@@ -227,7 +240,7 @@ var ObservableConnection = (function () {
                 return;
             }
             // Create a new observable for the channel
-            var channelObservable = new Observable(function (observer) {
+            var channelObservable = new _Rx.Observable(function (observer) {
                 _this.connectedReady.then(function () {
                     _this.reconnectedReady.then(function () {
                         var subscriptionOptions = {
@@ -274,14 +287,13 @@ var ObservableConnection = (function () {
     };
     ObservableConnection.prototype.publish = function (channel, message, ttl) {
         var _this = this;
-        return Observable.create(function (observer) {
+        return _Rx.Observable.create(function (observer) {
             _this.connectedReady.then(function () {
                 _this.reconnectedReady.then(function () {
                     _this.client.publish(channel, message, ttl, function (error, seqId) {
                         if (error) {
                             observer.error(error);
-                        }
-                        else {
+                        } else {
                             observer.next(seqId);
                         }
                     });
@@ -300,6 +312,6 @@ var ObservableConnection = (function () {
         this.client.disconnect();
     };
     return ObservableConnection;
-}());
-export { ObservableConnection };
+}();
+exports.ObservableConnection = ObservableConnection;
 //# sourceMappingURL=realtime-rxjs.js.map

@@ -1,15 +1,18 @@
 {
   "name": "realtime-rxjs",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "Realtime Messaging SDK for JavaScript Reactive Extensions (RxJS)",
   "main": "./dist/realtime-rxjs.js",
   "typings": "./dist/realtime-rxjs",
   "scripts": {
-    "prepublish": "tsc -d"
+    "prepublish": "tsc -d && babel dist/realtime-rxjs.js --out-file dist/realtime-rxjs.js"
   },
   "devDependencies": {
     "rxjs": ">= 5.0.0-beta.12 <6",
-    "typescript": "^2.0.9"
+    "typescript": "^2.0.9",
+    "babel-core": "6.14.0",
+    "babel-loader": "6.2.5",
+    "webpack": "^1.13.2"
   },
   "peerDependencies": {
     "rxjs": ">= 5.0.0-beta.12 <6"
